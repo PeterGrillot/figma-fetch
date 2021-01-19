@@ -1,11 +1,19 @@
 const fs = require('fs');
+const mkdirp = require('mkdirp');
+
 const fetch = require('node-fetch');
 require('dotenv').config();
 
 const ENV_API_KEY = process.env.API_KEY;
 const ENV_FIGMA_ID = process.env.FIGMA_ID;
 
+const DIST = './dist';
 const ARTBOARD_NAME = 'baseTheme'; // Change this to your Artboard
+
+const writeJSON = async (name, content) => {
+  await mkdirp(DIST);
+  fs.writeFileSync(`./${DIST}/${name}.json`, content);
+}
 
 const rbaObj = (n) => {
   return Math.round(n * 255);
@@ -36,13 +44,17 @@ async function getStylesArtboard(figmaApiKey, figmaId) {
   const nestedGroup = figmaTreeStructure.document.children[0].children
   const stylesArtboard = nestedGroup.filter(i => {
     return i.name === ARTBOARD_NAME;
-  })[0].children;  
+  })[0].children;
+  
+  writeJSON('artboard', JSON.stringify(figmaTreeStructure, null, 2));
+  
   return getPalette(stylesArtboard);
 }
 
 getStylesArtboard(ENV_API_KEY, ENV_FIGMA_ID).then((res => {
   // Do what you want
   const data = JSON.stringify(res, null, 2);
+  
   console.log(data);
-  fs.writeFileSync('palette.json', data);
+  writeJSON('palette', data);
 }));
