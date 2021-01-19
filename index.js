@@ -5,29 +5,22 @@ require('dotenv').config();
 const ENV_API_KEY = process.env.API_KEY;
 const ENV_FIGMA_ID = process.env.FIGMA_ID;
 
-const rbaObj = (obj) => {
-  return Math.round(item.fills[0].color[obj] * 255);
+const ARTBOARD_NAME = 'baseTheme'; // Change this to your Artboard
+
+const rbaObj = (n) => {
+  return Math.round(n * 255);
 }
 
-const colorObj = (item) => {
-  return `rgba(${rbaObj('r')}, ${rbaObj('g')}, ${rbaObj('b')}, ${item.fills[0].color.a})`
+const colorObj = (i) => {
+  return `rgba(${rbaObj(i.fills[0].color.r)}, ${rbaObj(i.fills[0].color.g)}, ${rbaObj(i.fills[0].color.b)}, ${i.fills[0].color.a})`
 };
 
 const getPalette = (stylesArtboard) => {
   let palette = {};
-  const paletteArtboard = stylesArtboard.filter(item => {
-    return item.name === 'Theme Colors';
-  })[0].children;
-  
-  const colorBlocks = paletteArtboard.filter(i => i.name == 'showcase/color');
-  
-  // -------------Let get what we want in Figma--------------- //
-  // colorBlocks.forEach(block => {
-  //   palette = {...palette, [block.name]: colorObj(block)}
-  // });
-  // return palette;
-  // --------------------------------------------------------- //
-  return colorBlocks;
+  stylesArtboard.forEach(block => {
+    palette = {...palette, [block.name]: colorObj(block)}
+  });
+  return palette;
 }
 
 async function getStylesArtboard(figmaApiKey, figmaId) {
@@ -39,10 +32,10 @@ async function getStylesArtboard(figmaApiKey, figmaId) {
   });
 
   const figmaTreeStructure = await result.json();
-  const stylesArtboard = figmaTreeStructure.document.children.filter(item => {
-    return item.name === 'Product Approved'; // Change this to it's own page maybe
-  })[0].children;
-  
+  const nestedGroup = figmaTreeStructure.document.children[0].children
+  const stylesArtboard = nestedGroup.filter(i => {
+    return i.name === ARTBOARD_NAME;
+  })[0].children;  
   return getPalette(stylesArtboard);
 }
 

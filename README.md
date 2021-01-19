@@ -10,7 +10,7 @@ npm install
 
 ### Create `.env`
 
-Add Figma API Key and Figma ID (artboard URL) to `.env` file. E.g. https://www.figma.com/file/<THIS_ID>/
+Add Figma API Key and Figma ID (artboard URL) to `.env` file. E.g. https://www.figma.com/file/<FIGMA_ID>/
 
 ```
 API_KEY=********
@@ -23,4 +23,12 @@ FIGMA_ID=*******
 npm run start
 ```
 
-Fetches JSON and saves file
+Fetches Figma JSON and saves to file
+
+#### Input
+
+![Figma File](./docs/figma.png)
+
+#### Output
+
+![Code Output](./docs/code.png)
