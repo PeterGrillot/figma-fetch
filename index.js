@@ -41,6 +41,7 @@ async function getStylesArtboard(figmaApiKey, figmaId) {
 }
 
 getStylesArtboard(ENV_API_KEY, ENV_FIGMA_ID).then((res => {
+  // Do what you want
   const data = JSON.stringify(res, null, 2);
   console.log(data);
   fs.writeFileSync('palette.json', data);
