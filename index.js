@@ -8,7 +8,7 @@ const ENV_API_KEY = process.env.API_KEY;
 const ENV_FIGMA_ID = process.env.FIGMA_ID;
 
 const DIST = './dist';
-const ARTBOARD_NAME = 'baseTheme'; // Change this to your Artboard
+const ARTBOARD_NAME = 'Custom'; // Change this to your Artboard
 
 const writeJSON = async (name, content) => {
   await mkdirp(DIST);
@@ -24,9 +24,34 @@ const colorObj = (i) => {
 };
 
 const getPalette = (stylesArtboard) => {
-  let palette = {};
-  stylesArtboard.forEach(block => {
-    palette = {...palette, [block.name]: colorObj(block)}
+  let palette = [];
+  stylesArtboard.filter(block => {
+    if(block.name === 'Theme Colors') {
+      console.log('ok')
+      let tokens = []
+      block.children.filter(child => {
+      if(child.name === 'Primary') {
+        const colors  = child.children.map(color => {
+          console.log(color)
+          return {
+            name: color.name,
+            color: colorObj(color)
+          };
+        });
+        tokens = [...tokens, {
+          name: child.name,
+          colors
+        }]
+      }
+      })
+      palette = [
+        ...palette,
+        {
+          name: block.name,
+          tokens
+        }
+      ];
+    }
   });
   return palette;
 }
@@ -41,12 +66,9 @@ async function getStylesArtboard(figmaApiKey, figmaId) {
 
   const figmaTreeStructure = await result.json();
   // Could be nested, check nesting via console
-  const nestedGroup = figmaTreeStructure.document.children[0].children
-  const stylesArtboard = nestedGroup.filter(i => {
-    return i.name === ARTBOARD_NAME;
-  })[0].children;
-  
-  writeJSON('artboard', JSON.stringify(figmaTreeStructure, null, 2));
+  const nestedGroup = figmaTreeStructure.document.children
+  const stylesArtboard = nestedGroup.filter(i => i.name == ARTBOARD_NAME)[0].children;
+  writeJSON('artboard', JSON.stringify(stylesArtboard, null, 2));
   
   return getPalette(stylesArtboard);
 }
@@ -55,6 +77,5 @@ getStylesArtboard(ENV_API_KEY, ENV_FIGMA_ID).then((res => {
   // Do what you want
   const data = JSON.stringify(res, null, 2);
   
-  console.log(data);
   writeJSON('palette', data);
 }));
