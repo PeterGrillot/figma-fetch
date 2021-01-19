@@ -1,6 +1,6 @@
 # figma-fetch
 
-Fetch Figma File artboard as JSON
+Fetch Figma File artboard as JSON. You will need to organize and tweak if your Artboard looks diffent than the example shown below.
 
 ### Install
 
@@ -23,12 +23,12 @@ FIGMA_ID=*******
 npm run start
 ```
 
-Fetches Figma JSON and saves to file
+Fetches and formats Figma JSON.
 
-#### Input
+#### Input Figma File
 
 ![Figma File](./docs/figma.png)
 
-#### Output
+#### Output JSON
 
 ![Code Output](./docs/code.png)
