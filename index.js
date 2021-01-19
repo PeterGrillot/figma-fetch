@@ -32,6 +32,7 @@ async function getStylesArtboard(figmaApiKey, figmaId) {
   });
 
   const figmaTreeStructure = await result.json();
+  // Could be nested, check nesting via console
   const nestedGroup = figmaTreeStructure.document.children[0].children
   const stylesArtboard = nestedGroup.filter(i => {
     return i.name === ARTBOARD_NAME;
