@@ -4,14 +4,35 @@
   "description": "Fetch Figma File artboard as JSON",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "lint": "eslint",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "lodash.camelcase": "^4.3.0",
     "mkdirp": "^1.0.4",
-    "node-fetch": "^2.6.0"
-  }
+    "node-fetch": "^2.6.0",
+    "ora": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterGrillot/figma-fetch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PeterGrillot/figma-fetch/issues"
+  },
+  "homepage": "https://github.com/PeterGrillot/figma-fetch#readme"
 }

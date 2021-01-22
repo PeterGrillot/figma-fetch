@@ -1,6 +1,6 @@
 # figma-fetch
 
-Fetch Figma File artboard as JSON. You will need to organize/tweak `index.js` if your artboard looks different than the example shown below.
+Fetch Figma File artboard as JSON then writes to ts and outputs muiTheme. You will need to organize/tweak `index.js` if your artboard looks different than the example shown below.
 
 ### Install
 
@@ -23,15 +23,13 @@ FIGMA_ID=*******
 npm run start
 ```
 
-Fetches and formats Figma JSON for you to do what you please.
-
 #### Input Figma File
 
 ![Figma File](./docs/figma.png)
 
 #### Output JSON
 
-Default output is `palette.json` and `artboard.json` to `./dist` directory. Artboard is everything returned. Palette is formatted to `{name: color}`.
+Default outputs `dist/theme.ts` to `./dist` directory. Palette is formatted to `{name: color}`.
 
 #### Palette
 
